@@ -1,0 +1,61 @@
+{
+  "$comment": "smoke.mjs 配置 —— 既是本包的实际配置，也是给其它项目用的模板。每一层（tier）的语义见 smoke/README.md。",
+
+  "root": "..",
+  "timeoutMs": 60000,
+  "allowMarker": "smoke-allow",
+
+  "tiers": {
+    "run": [
+      {
+        "path": "file-verify/file-verify.mjs",
+        "args": ["file-verify/file-verify.mjs"],
+        "expect": [0],
+        "note": "只读校验，拿自己当被测文件即可跑通"
+      }
+    ],
+
+    "args": [],
+
+    "usage": [
+      {
+        "path": "file-verify/file-verify.mjs",
+        "hint": "用法",
+        "note": "零参数应干净失败，不能挂起也不能崩"
+      },
+      {
+        "path": "dailyuploads-fast/dailyuploads-fast.mjs",
+        "hint": "用法",
+        "note": "零参数应干净失败 —— 实测确实如此"
+      }
+    ],
+
+    "syntax": [
+      {
+        "path": "dailyuploads-fast/dailyuploads-fast.mjs",
+        "why": "有 URL 时会联网并写盘，绝不能在冒烟测试里执行"
+      }
+    ],
+
+    "analyze": []
+  },
+
+  "knownBroken": {},
+
+  "depends": [
+    {
+      "path": "C:\\Program Files\\7-Zip\\7z.exe",
+      "note": "归档完整性校验（dailyuploads-fast 收尾时可选调用）",
+      "required": false
+    }
+  ],
+
+  "staleRefs": [
+    {
+      "rule": "example-stale",
+      "pattern": "E:\\\\path-that-does-not-exist",
+      "why": "示例规则：改成你自己项目里已废弃的路径前缀",
+      "skipExt": [".md", ".json"]
+    }
+  ]
+}
